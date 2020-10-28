@@ -1,0 +1,22 @@
+module.exports = {
+    devServer:{
+        port:8888,
+        host:"localhost",
+        https:false,
+        open:true,//启动服务时自动打开浏览器访问
+        proxy:{//开发环境代理配置
+            [process.env.VUE_APP_BASE_API]:{
+                //目标服务器,代理访问http://localhost:7300
+                target:process.env.VUE_APP_SERVICE_URL,
+                changOrigin:true,//开启代理
+                pathRewrite:{
+                    //会将/dev-api替换为"",所以/dev-api会被移出
+                    //https://localhost:8080/dev-api/db.json 
+                    ['^'+process.env.VUE_APP_BASE_API]:''
+                }
+            }
+        }
+    },
+    lintOnSave:false,//关闭格式检查
+    productionSourceMap:false,
+}
